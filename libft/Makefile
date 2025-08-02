@@ -6,7 +6,7 @@
 #    By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 14:55:17 by mezhang           #+#    #+#              #
-#    Updated: 2025/07/22 11:40:11 by mezhang          ###   ########.fr        #
+#    Updated: 2025/08/02 18:59:03 by mezhang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,13 @@ SRCS = 	ft_atoi.c \
 		ft_substr.c \
 		ft_tolower.c \
 		ft_toupper.c \
-		ft_striteri.c
+		ft_striteri.c \
+		ft_printf.c \
+		ft_printf_hex.c \
+		ft_printf_nbr.c \
+		ft_printf_ptr.c \
+		ft_printf_str.c \
+		ft_printf_uint.c \
 
 OBJS = $(SRCS:.c=.o)
 

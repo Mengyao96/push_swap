@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 23:01:50 by mezhang           #+#    #+#             */
-/*   Updated: 2025/07/30 22:15:44 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/02 18:59:34 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 //notsure
 
-// # if defined(__linux__)
-// #  define NULLPTR "(nil)"
-// #  define NULLPTR_LEN 5
-// # elif defined(__APPLE__)
-// #  define NULLPTR "0x0"
-// #  define NULLPTR_LEN 3
-// # endif
+# if defined(__linux__)
+#  define NULLPTR "(nil)"
+#  define NULLPTR_LEN 5
+# elif defined(__APPLE__)
+#  define NULLPTR "0x0"
+#  define NULLPTR_LEN 3
+# endif
 
 # include <stdio.h>
 # include <stdarg.h>
