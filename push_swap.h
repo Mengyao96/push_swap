@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:22:57 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/02 21:16:09 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:42:13 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 typedef struct s_list
 {
 	int				value;
+	int				index; //initalize to -1
 	struct s_list	*prior;
 	struct s_list	*next;
 }	t_list;
@@ -60,7 +61,7 @@ char	**ft_split_ps(char const *s, char c);
 long	ft_atoi_ps(char *str);
 
 // sorting
-int		ft_sorting_three(t_stack *stack_a);
-
+void	ft_sorting_three(t_stack *stack_a);
+void	ft_sorting_small(t_stack *stack_a, t_stack *stack_b);
 
 #endif

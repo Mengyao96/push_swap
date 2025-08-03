@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stack_utsils.c                                  :+:      :+:    :+:   */
+/*   ft_stack_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 23:49:52 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/02 16:09:20 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/03 19:42:22 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_list	*ft_lstnew_ps(long input)
 	if (node == NULL)
 		return (NULL);
 	node->value = input;
+	node->index = -1;
 	node->prior = NULL;
 	node->next = NULL;
 	return (node);
@@ -43,17 +44,19 @@ t_list	*ft_lstnew_ps(long input)
 /// add a new node to the end of the stack
 void	ft_lstadd_back_ps(t_stack *stack, t_list *new_node)
 {
-	if (!stack || !new_node)
+	if (!new_node)
 		return ;
-	if (stack->top == NULL)
+	if (!stack || !stack->top)
 	{
 		stack->top = new_node;
 		stack->bottom = new_node;
+		stack->size++;
 		return ;
 	}
 	new_node->prior = stack->bottom;
 	stack->bottom->next = new_node;
 	stack->bottom = new_node;
+	stack->size++;
 }
 
 void	free_stack(t_stack *stack)
@@ -74,3 +77,4 @@ void	free_stack(t_stack *stack)
 	stack->bottom = NULL;
 	stack->size = 0;
 }
+

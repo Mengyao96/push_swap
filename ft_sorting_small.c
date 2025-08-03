@@ -6,27 +6,27 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:02:40 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/02 23:47:41 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/03 21:22:30 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "push_swap.h"
 
-int	ft_sorting_three(t_stack *stack_a)
+void	ft_sorting_three(t_stack *stack_a)
 {
 	t_list	*a;
 	t_list	*b;
 	t_list	*c;
 
 	if (!stack_a || stack_a->size > 3)
-		return (0);
+		return ;
 	a = stack_a->top;
 	b = a->next;
+	c = b->next;
 	if (a->value > b->value)
 		sa(stack_a);
-	c = b->next;
 	if (!c)
-		return (1);
+		return ;
 	if (a->value > c->value)
 	{
 		rra(stack_a);
@@ -38,75 +38,149 @@ int	ft_sorting_three(t_stack *stack_a)
 		sa(stack_a);
 		ra(stack_a);
 	}
-	return (1);
 }
 
-t_list	*find_min(t_stack *stack_a, int *index)
+/* static t_list	*get_min_node(t_stack *stack_a, int *index)
 {
 	int		min_value;
 	t_list	*current;
 	t_list	*min_node;
+	int		i;
 
 	if (!stack_a || stack_a->size == 0)
 		return (NULL);
 	current = stack_a->top;
 	min_value = current->value;
+	i = 0;
 	while (current)
 	{
 		if (current->value <= min_value)
 		{
 			min_value = current->value;
 			min_node = current;
+			*index = i;
 		}
 		current = current->next;
-		*index++;
+		i++;
 	}
 	return (min_node);
-}
+} */
 
-int	ft_sorting_small(t_stack *stack_a, t_stack *stack_b)
+static int	min_index(t_stack *stack_a)
 {
-	t_list	*min_node;
+	int		min_value;
+	t_list	*current;
+	int		i;
 	int		index;
 
-	if (!stack_a || stack_a->size > 5)
+	if (!stack_a || stack_a->size == 0)
 		return (0);
-	if (stack_a->size <= 3)
+	current = stack_a->top;
+	min_value = current->value;
+	i = 0;
+	index = -1;
+	while (current)
 	{
-		ft_sorting_three(stack_a);
-		if (stack_b->size == 0)
-			return (1);
+		if (current->value <= min_value)
+		{
+			min_value = current->value;
+			index = i;
+		}
+		current = current->next;
+		i++;
 	}
-	min_node = find_min(stack_a, &index);
-	if (index < 3 && index - 1 >= 0)
-		ra(stack_a);
-	else if (index >= 3)
-		rra(stack_a);
-	while (stack_a->size > 3)
-		pb(stack_a, stack_b);
-	ft_sorting_three(stack_a);
-	while (stack_b->top->value < stack_a->top->value)
-		pa(stack_a, stack_b);
-	if (stack_b->top->value > stack_a->bottom->value)
-	{
-		pa(stack_a, stack_b);
-		ra(stack_a);
-		pa(stack_a, stack_b);
-	}
-	else
-		pa(stack_a, stack_b);
-
+	return (index);
 }
+
+void	ft_sorting_small(t_stack *stack_a, t_stack *stack_b)
+{
+	int		index;
+
+	if (!stack_a /* || stack_a->size > 5 */)
+		return ;
+	if (stack_a->size <= 3)
+		ft_sorting_three(stack_a);
+	else
+	{
+		index = min_index(stack_a);
+		if (index <= stack_a->size / 2)
+		{
+			while (index-- > 0)
+				ra(stack_a);
+		}
+		else
+		{
+			while (index++ < stack_a->size)
+				rra(stack_a);
+		}
+		pb(stack_a, stack_b);
+		ft_sorting_small(stack_a, stack_b);
+		pa(stack_a, stack_b);
+	}
+}
+
+void	ft_get_stack_index(t_stack *stack_a)
+{
+	t_list	*current;
+	t_list	*min_node;
+	int		index;
+	int		i;
+
+	index = -1;
+	i = 0;
+	while (i < stack_a->size)
+	{
+		current = stack_a->top;
+		min_node = NULL;
+		while (current)
+		{
+			if (current->index == -1 && (!min_node || current->value < min_node->value))
+				min_node = current;
+			current = current->next;
+		}
+		min_node->index = i++;
+	}
+}
+
+void	ft_push_to_buckets(t_stack *a, t_stack *b)
+{
+	t_list	*current;
+
+	current = a->top;
+	while (current)
+	{
+		if (current->index > (a->size * 3) / 4)
+		{
+			if (b->size > 1 && b->top->index < a->size / 4) //or > bottom-> index
+				rr(a, b);
+			else
+				ra(a);
+		}
+		else if (current->index < a->size / 2)
+		{
+			pb(a, b);
+			if (current->index < a->size / 4)
+			{
+				if (a->top->index > (a->size * 3) / 4)
+					rr(a, b);
+				else
+					rb(b);
+			}
+		current = current->next;
+		}
+	}
+}
+
 
 int	main(int argc, char *argv[])
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
-	// t_list	*current;
+	t_list	*current;
 	int 	check;
 
 	stack_a = NULL;
-	stack_b = NULL;
+	stack_b = ft_stack_init();
 	if (argc < 2 || argv[1][0] == '\0')
 		return (0);
 
@@ -114,19 +188,20 @@ int	main(int argc, char *argv[])
 	if (!stack_a)
 		return (ft_printf("Error\n"), 0);
 
-	// current = stack_a->top;
-	// while (current)
-	// {
-	// 	ft_printf("stack_a:\n%d\n", current->value);
-	// 	current = current->next;
-	// }
+	ft_get_stack_index(stack_a);
 
-	if (stack_a->size == 3)
-		check = ft_sorting_three(stack_a);
-	if (stack_a->size == 5)
-		check = ft_sorting_five(stack_a, stack_b);
-	if (check == 0)
-		return (ft_printf("Error here\n"), 0);
+	current = stack_a->top;
+	while (current)
+	{
+		// printf("index: %d, value: %d\n", current->index, current->value);
+		current = current->next;
+	}
+	ft_sorting_small(stack_a, stack_b);
+	if (stack_a->size <= 5)
+	{
+		ft_sorting_small(stack_a, stack_b);
+		return (0);
+	}
 
 	free_stack(stack_a);
 	return (0);

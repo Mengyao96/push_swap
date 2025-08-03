@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:30:44 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/02 19:14:49 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/03 14:46:26 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ t_stack	*ft_into_stack(char **argv)
 		if (!new_node)
 			return (free_stack(stack_a), NULL);
 		ft_lstadd_back_ps(stack_a, new_node);
-		stack_a->size++;
 		i++;
 	}
 	free_array(legit_arry);
