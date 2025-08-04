@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 18:06:18 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/03 16:08:30 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/04 23:04:27 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	pa(t_stack *stack_a, t_stack *stack_b)
 		first->next = stack_a->top;
 		stack_a->top->prior = first;
 		stack_a->top = first;
+		stack_a->size++;
 	}
-	stack_a->size++;
 	write(1, "pa\n", 3);
 }
 
@@ -72,8 +72,8 @@ void	pb(t_stack *stack_a, t_stack *stack_b)
 		first->next = stack_b->top;
 		stack_b->top->prior = first;
 		stack_b->top = first;
+		stack_b->size++;
 	}
-	stack_b->size++;
 	write(1, "pb\n", 3);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 23:49:52 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/03 19:42:22 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/04 17:48:13 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	free_stack(t_stack *stack)
 	{
 		next_node = current->next;
 		free(current);
-		current = current->next;
+		current = next_node;
 	}
 	stack->top = NULL;
 	stack->bottom = NULL;

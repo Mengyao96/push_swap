@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:30:44 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/03 14:46:26 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/04 17:48:31 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,25 +148,25 @@ t_stack	*ft_into_stack(char **argv)
 	free_array(legit_arry);
 	return (stack_a);
 }
+/*
+int	main(int argc, char **argv)
+{
+	t_stack	*stack;
+	t_list	*current;
 
-// int	main(int argc, char **argv)
-// {
-// 	t_stack	*stack;
-// 	t_list	*current;
+	if (argc < 2)
+		return (0);
 
-// 	if (argc < 2)
-// 		return (0);
+	stack = ft_into_stack(argv);
+	if (!stack)
+		return (printf("Error\n"), 0);
 
-// 	stack = ft_into_stack(argv);
-// 	if (!stack)
-// 		return (printf("Error\n"), 0);
-
-// 	current = stack->top;
-// 	while (current)
-// 	{
-// 		printf("%d\n", current->value);
-// 		current = current->next;
-// 	}
-// 	free_stack(stack);
-// 	return (0);
-// }
+	current = stack->top;
+	while (current)
+	{
+		printf("%d\n", current->value);
+		current = current->next;
+	}
+	free_stack(stack);
+	return (0);
+} */

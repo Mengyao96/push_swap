@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:02:40 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/03 21:22:30 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/04 23:10:46 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,42 +142,48 @@ void	ft_get_stack_index(t_stack *stack_a)
 	}
 }
 
-void	ft_push_to_buckets(t_stack *a, t_stack *b)
+void	ft_triple_push(t_stack *a, t_stack *b)
 {
-	t_list	*current;
+	int		pivot;
+	int		pushes;
+	int		base;
 
-	current = a->top;
-	while (current)
+	if (!a || a->size <= 3)
+		return (ft_sorting_three(a));
+	pivot = a->size / 3;
+	pushes = 0;
+	base = b->size;
+	while (a->top && pushes < pivot )
 	{
-		if (current->index > (a->size * 3) / 4)
-		{
-			if (b->size > 1 && b->top->index < a->size / 4) //or > bottom-> index
-				rr(a, b);
-			else
-				ra(a);
-		}
-		else if (current->index < a->size / 2)
+		// printf("pivot: %d, base: %d, pushes: %d\n", pivot, base, pushes);
+		if (a->top->index <= base + pivot)
 		{
 			pb(a, b);
-			if (current->index < a->size / 4)
-			{
-				if (a->top->index > (a->size * 3) / 4)
-					rr(a, b);
-				else
-					rb(b);
-			}
-		current = current->next;
+			pushes++;
 		}
+		else
+			ra(a);
 	}
+	ft_triple_push(a, b);
 }
 
+void	ft_order_back(t_stack *a, t_stack *b)
+{
+	int		steps;
+
+	steps = 0;
+	if (!b || b->size == 0)
+		return ;
+	if (b->top->index == a->top->index - 1)
+		pa(a, b);
+}
 
 int	main(int argc, char *argv[])
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 	t_list	*current;
-	int 	check;
+	// int 	check;
 
 	stack_a = NULL;
 	stack_b = ft_stack_init();
@@ -190,18 +196,18 @@ int	main(int argc, char *argv[])
 
 	ft_get_stack_index(stack_a);
 
-	current = stack_a->top;
-	while (current)
-	{
-		// printf("index: %d, value: %d\n", current->index, current->value);
-		current = current->next;
-	}
-	ft_sorting_small(stack_a, stack_b);
-	if (stack_a->size <= 5)
-	{
-		ft_sorting_small(stack_a, stack_b);
-		return (0);
-	}
+	// current = stack_a->top;
+	// while (current)
+	// {
+	// 	ft_printf("Value: %d, Index: %d\n", current->value, current->index);
+	// 	current = current->next;
+	// }
+	// ft_printf("size: %d\n", stack_a->size);
+
+	ft_triple_push(stack_a, stack_b);
+
+
+	// ft_sorting_small(stack_a, stack_b);
 
 	free_stack(stack_a);
 	return (0);
