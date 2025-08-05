@@ -1,0 +1,26 @@
+ cc ft_sorting_small.c ft_input.c ft_swap.c ft_reverse_rotate.c ft_push.c ft_push_and_pull.c ft_rotate.c  ft_input_atoi.c ft_input_split.c ft_stack_utils.c libft/libft.a -I. -Ilibft -g -fsanitize=address,undefined
+
+void	ft_triple_push(t_stack *a, t_stack *b)
+{
+	int		pivot;
+	int		pushes;
+	int		base;
+
+	if (!a || a->size <= 3)
+		return (ft_sorting_three(a));
+	pivot = a->size / 3;
+	pushes = 0;
+	base = b->size;
+	while (a->top && pushes < pivot )
+	{
+		// printf("pivot: %d, base: %d, pushes: %d\n", pivot, base, pushes);
+		if (a->top->index <= base + pivot)
+		{
+			pb(a, b);
+			pushes++;
+		}
+		else
+			ra(a);
+	}
+	ft_triple_push(a, b);
+}

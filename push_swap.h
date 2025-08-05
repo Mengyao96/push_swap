@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:22:57 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/03 19:42:13 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/05 19:28:34 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,23 @@ typedef struct s_stack
 	struct s_list	*bottom;
 }	t_stack;
 
+typedef struct s_move
+{
+	// int index;
+	int	ra;
+	int	rb;
+	// int	rra; rra = a->size - ra;
+	// int	rrb; rrb = b->size - rb;
+	int	cost;
+}	t_move;
+
 //stack operations
 t_stack	*ft_into_stack(char **argv);
 t_stack	*ft_stack_init(void);
 t_list	*ft_lstnew_ps(long input);
 void	ft_lstadd_back_ps(t_stack *stack, t_list *new_node);
 void	free_stack(t_stack *stack);
+
 
 // push_swap operations
 void	sa(t_stack *stack_a);
@@ -63,5 +74,7 @@ long	ft_atoi_ps(char *str);
 // sorting
 void	ft_sorting_three(t_stack *stack_a);
 void	ft_sorting_small(t_stack *stack_a, t_stack *stack_b);
+void	ft_get_stack_index(t_stack *stack_a);
+int		ft_is_sorted(t_stack *stack_a);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:02:40 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/04 23:10:46 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:39:26 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,73 +142,18 @@ void	ft_get_stack_index(t_stack *stack_a)
 	}
 }
 
-void	ft_triple_push(t_stack *a, t_stack *b)
+int	ft_is_sorted(t_stack *stack_a)
 {
-	int		pivot;
-	int		pushes;
-	int		base;
-
-	if (!a || a->size <= 3)
-		return (ft_sorting_three(a));
-	pivot = a->size / 3;
-	pushes = 0;
-	base = b->size;
-	while (a->top && pushes < pivot )
-	{
-		// printf("pivot: %d, base: %d, pushes: %d\n", pivot, base, pushes);
-		if (a->top->index <= base + pivot)
-		{
-			pb(a, b);
-			pushes++;
-		}
-		else
-			ra(a);
-	}
-	ft_triple_push(a, b);
-}
-
-void	ft_order_back(t_stack *a, t_stack *b)
-{
-	int		steps;
-
-	steps = 0;
-	if (!b || b->size == 0)
-		return ;
-	if (b->top->index == a->top->index - 1)
-		pa(a, b);
-}
-
-int	main(int argc, char *argv[])
-{
-	t_stack	*stack_a;
-	t_stack	*stack_b;
 	t_list	*current;
-	// int 	check;
 
-	stack_a = NULL;
-	stack_b = ft_stack_init();
-	if (argc < 2 || argv[1][0] == '\0')
-		return (0);
-
-	stack_a = ft_into_stack(argv);
-	if (!stack_a)
-		return (ft_printf("Error\n"), 0);
-
-	ft_get_stack_index(stack_a);
-
-	// current = stack_a->top;
-	// while (current)
-	// {
-	// 	ft_printf("Value: %d, Index: %d\n", current->value, current->index);
-	// 	current = current->next;
-	// }
-	// ft_printf("size: %d\n", stack_a->size);
-
-	ft_triple_push(stack_a, stack_b);
-
-
-	// ft_sorting_small(stack_a, stack_b);
-
-	free_stack(stack_a);
-	return (0);
+	if (!stack_a || stack_a->size < 2)
+		return (1);
+	current = stack_a->top;
+	while (current && current->next)
+	{
+		if (current->index + 1 != current->next->index)
+			return (0);
+		current = current->next;
+	}
+	return (1);
 }
