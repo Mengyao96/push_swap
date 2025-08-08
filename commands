@@ -1,4 +1,4 @@
- cc ft_sorting_small.c ft_input.c ft_swap.c ft_reverse_rotate.c ft_push.c ft_push_and_pull.c ft_rotate.c  ft_input_atoi.c ft_input_split.c ft_stack_utils.c libft/libft.a -I. -Ilibft -g -fsanitize=address,undefined
+ cc ft_sorting_small.c ft_input.c ft_swap.c ft_reverse_rotate.c ft_push.c ft_push_and_pull.c ft_rotate.c  ft_input_atoi.c ft_input_split.c ft_stack_utils.c libft/libft.a -I. -Ilibft -g -fsanitize=address,undefined -o push_swap
 
 void	ft_triple_push(t_stack *a, t_stack *b)
 {
@@ -24,3 +24,83 @@ void	ft_triple_push(t_stack *a, t_stack *b)
 	}
 	ft_triple_push(a, b);
 }
+
+// void	ft_greedy_push2(t_stack *a, t_stack *b)
+// {
+// 	int	chunk_size;
+// 	int	lbound;
+// 	int	max;
+
+// 	chunk_size = a->size ^ (1 / 2);
+// 	lbound = 0;
+// 	if (!a || a->size <= 3)
+// 		return (ft_sorting_three(a));
+// 	max = a->size;
+// 	while (a->size > 3)
+// 	{
+// 		if (a->top->index >= max - 3)
+// 			ra(a);
+// 		else if (a->top->index <= lbound)
+// 		{
+// 			pb(a, b);
+// 			rb(b);
+// 		}
+// 		else if (a->top->index <= lbound + chunk_size)
+// 			pb(a, b);
+// 		else
+// 			ra(a);
+// 		lbound += chunk_size;
+// 	}
+// 	ft_sorting_three(a);
+// }
+
+
+/* void	move_cost2(t_stack *a, t_stack *b, t_list *node, t_move *moves)
+{
+	int		pos[2];
+	int		adjust;
+	// int		op_cost;
+
+	location_node(a, b, node, pos);
+	if (pos[0] <= b->size / 2)
+		moves->rb = pos[0];
+	else
+		moves->rrb = b->size - pos[0]; // actually the steps of rrb. but here only present the steps of rb
+	if (pos[1] <= a->size / 2)
+		moves->ra = pos[1];
+	else
+		moves->rra = a->size - pos[1]; // no need to recover
+
+	if (moves->ra <= moves->rb)
+		adjust = - moves->ra;
+	else if (moves->ra > moves->rb)
+		adjust = - moves->rb;
+	if (moves->rra <= moves->rrb)
+		adjust = adjust - moves->rra;
+	else if (moves->ra > moves->rb)
+		adjust = adjust - moves->rrb;
+
+
+	// while (pos[1]--)
+	// {
+	// 	if (a->top->index> node->index)
+	// 	{
+	// 		adjust = adjust + a->top->index - node->index - 1;
+	// 	}
+	// 	a->top = a->top->next;
+	// }
+	moves->cost = moves->ra + moves->rb + moves->rra + moves->rrb + adjust;
+	printf("move_cost: %d, %d, %d, %d, cost: %d\n", moves->ra, moves->rb, moves->rra, moves->rrb, moves->cost);
+
+} */
+
+
+/* void	init_moves(t_move *moves)
+{
+	moves->ra = 0;
+	moves->rb = 0;
+	moves->rra = 0;
+	moves->rrb = 0;
+	moves->cost = 0; // Initialize to a large value
+} */
+

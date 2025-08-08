@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:22:57 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/05 19:28:34 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/08 01:22:42 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_move
 	// int index;
 	int	ra;
 	int	rb;
-	// int	rra; rra = a->size - ra;
-	// int	rrb; rrb = b->size - rb;
+	// int	rra;
+	// int	rrb;
 	int	cost;
 }	t_move;
 
@@ -76,5 +76,7 @@ void	ft_sorting_three(t_stack *stack_a);
 void	ft_sorting_small(t_stack *stack_a, t_stack *stack_b);
 void	ft_get_stack_index(t_stack *stack_a);
 int		ft_is_sorted(t_stack *stack_a);
+void	ft_pull(t_stack *a, t_stack *b);
+void	reconsider(t_stack *a, t_stack *b, t_move *moves);
 
 #endif

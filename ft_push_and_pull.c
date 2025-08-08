@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 10:47:55 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/05 21:56:15 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/08 02:21:27 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,30 @@
 void	ft_greedy_push(t_stack *a, t_stack *b)
 {
 	int	chunk_size;
+	int	ubound;
 	int	lbound;
 	int	max;
+	int	round;
 
-	chunk_size = a->size / 5; // 5 is the best practice
-	lbound = 0;
-	if (!a || a->size <= 3)
-		return (ft_sorting_three(a));
-	max = a->size; // reserve 3 elements for sorting later
+	chunk_size = a->size ^ (1 / 2);
+	lbound = round % (a->size / chunk_size) * chunk_size;
+	ubound = lbound + chunk_size;
+	max = a->size;
 	while (a->size > 3)
 	{
 		if (a->top->index >= max - 3)
 			ra(a);
-		if (a->top->index <= lbound)
-		{
-			pb(a, b);
-			rb(b);
-		}
-		else if (a->top->index <= lbound + chunk_size)
+		else if (a->top->index >= lbound && a->top->index <= ubound)
 			pb(a, b);
 		else
 			ra(a);
-		lbound += chunk_size;
+		if (b->top && b->top->index == ubound)
+			lbound += 1;
 	}
 	ft_sorting_three(a);
 }
 
-void	location_node(t_stack *a, t_stack *b, t_list *node, int location[2])
+void	location_node(t_stack *a, t_stack *b, t_list *node, int location[2], int *op_cost)
 {
 	t_list	*current;
 
@@ -60,58 +57,30 @@ void	location_node(t_stack *a, t_stack *b, t_list *node, int location[2])
 	while (current)
 	{
 		if (current->index > node->index)
+		{
+			*op_cost = current->index - node->index - 1;
 			break;
+		}
 		current = current->next;
 		location[1]++;
 	}
-	// printf("\nlocations: b: %d, a: %d, index: %d\n", location[0], location[1], node->index);
 	return;
 }
-
-/* void	move_cost(t_stack *a, t_stack *b, t_list *node, t_move *moves)
-{
-	int		pos[2];
-
-	location_node(a, b, node, pos);
-	if (pos[0] <= b->size / 2 && pos[1] <= a->size / 2)
-	{
-		moves->rb = pos[0];
-		moves->ra = pos[1];
-	}
-	else if (pos[0] > b->size / 2 && pos[1] <= a->size / 2)
-	{
-		moves->rb = pos[0] - b->size; // actually the steps of rrb. but here only present the steps of rb
-		moves->ra = pos[1];
-	}
-	else if (pos[0] <= b->size / 2 && pos[1] > a->size / 2)
-	{
-		moves->rb = pos[0];
-		moves->ra = pos[1] - a->size; // no need to recover
-	}
-	else
-	{
-		moves->rb = pos[0] - b->size; // actually the steps of rrb. but here only present the steps of rb
-		moves->ra = pos[1] - a->size; // no need to recover
-	}
-	moves->cost = moves->rb + moves->ra;
-} */
-
 
 void	move_cost(t_stack *a, t_stack *b, t_list *node, t_move *moves)
 {
 	int		pos[2];
+	int		op_cost;
 
-	location_node(a, b, node, pos);
+	location_node(a, b, node, pos, &op_cost);
 	if (pos[0] <= b->size / 2)
 		moves->rb = pos[0];
 	else
-		moves->rb = pos[0] - b->size; // actually the steps of rrb. but here only present the steps of rb
+		moves->rb = pos[0] - b->size;
 	if (pos[1] <= a->size / 2)
 		moves->ra = pos[1];
 	else
-		moves->ra = pos[1] - a->size; // no need to recover
-
-
+		moves->ra = pos[1] - a->size;
 	if (moves->rb < 0 && moves->ra >= 0)
 		moves->cost = moves->rb * -1 + moves->ra;
 	if (moves->rb < 0 && moves->ra <= moves->rb)
@@ -124,16 +93,7 @@ void	move_cost(t_stack *a, t_stack *b, t_list *node, t_move *moves)
 		moves->cost = moves->ra;
 	if (moves->rb >= 0 && moves->ra >= 0 && moves->rb >= moves->ra)
 		moves->cost = moves->rb;
-
-	// printf("\nlocations: b: %d, a: %d, index: %d, rb: %d, ra: %d, cost: %d\n",
-	// 	pos[0], pos[1], node->index, moves->rb, moves->ra, moves->cost);
-	// if (moves->ra >= 0 && moves->rb >= 0)
-	// {
-	// 	if (moves->ra >= moves->rb)
-	// 		moves->cost = moves->ra;
-	// 	else
-	// 		moves->cost = moves->rb;
-	// }
+	moves->cost = moves->cost + op_cost;
 }
 
 t_list	*get_cheapest_node(t_stack *a, t_stack *b)
@@ -160,76 +120,103 @@ t_list	*get_cheapest_node(t_stack *a, t_stack *b)
 	return (cheapest);
 }
 
+void	ex_rotate(t_stack *a, t_stack *b, t_move *moves)
+{
+	while (moves->rb > 0 || moves->ra > 0)
+	{
+		if (moves->ra > 0 && moves->rb > 0)
+		{
+			rr(a, b);
+			moves->ra--;
+			moves->rb--;
+		}
+		else if (moves->rb > 0)
+		{
+			rb(b);
+			moves->rb--;
+		}
+		else if (moves->ra > 0)
+		{
+			ra(a);
+			moves->ra--;
+		}
+	}
+	while (moves->rb < 0)
+	{
+		rrb(b);
+		moves->rb++;
+	}
+	reconsider(a, b, moves);
+}
+
+void	reconsider(t_stack *a, t_stack *b, t_move *moves) // atop, abottom, btop
+{
+
+	// printf("reconsder: %d \n", b->top->index);
+	if (a->size != 3 && a->top->index > a->bottom->index && (a->bottom->index > b->top->index)) //bottom-up recycle ++
+	{
+		rra(a);
+	}
+	else if (a->top->index < a->bottom->index) // at this moment, already:: && (a->top->index < b->top->index)
+	{
+		// printf("moves->ra: %d, moves->rb: %d\n", moves->ra, moves->rb);
+		while (moves->ra > 0)
+		{
+			ra(a);
+			moves->ra--;
+		}
+		// while (moves->ra < 0)
+		// {
+		// 	rra(a);
+		// 	moves->ra++;
+		// }
+	}
+	// printf("stratigh %d to pa\n", b->top->index);
+	pa(a, b);
+	while (!(a->bottom->index > a->bottom->prior->index))
+	{
+		rra(a);
+	}
+}
 
 void	ft_pull(t_stack *a, t_stack *b)
 {
 	t_move	moves;
 	t_list	*cheapest;
 
-	if (b->size == 0)
+	if (b->size == 0 && ft_is_sorted(a) == 1) //
 		return;
+
 	cheapest = get_cheapest_node(a, b);
 	move_cost(a, b, cheapest, &moves);
-
-	while (moves.rb > 0 || moves.ra > 0)
-	{
-		if (moves.ra > 0 && moves.rb > 0)
-		{
-			rr(a, b);
-			moves.ra--;
-			moves.rb--;
-		}
-		else if (moves.rb > 0)
-		{
-			rb(b);
-			moves.rb--;
-		}
-		else if (moves.ra > 0)
-		{
-			ra(a);
-			moves.ra--;
-		}
-	}
-	while (moves.rb < 0)
-	{
-		rrb(b);
-		moves.rb++;
-	}
-	pa(a, b);
+	ex_rotate(a, b, &moves);
+	// printf("finishing: %d\n then next round:\n", a->top->index);
 	ft_pull(a, b);
 }
 
-
 int	main(int argc, char *argv[])
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
+	t_stack	*a;
+	t_stack	*b;
 	t_list	*current;
 	// int 	check;
 
-	stack_a = NULL;
-	stack_b = ft_stack_init();
+	a = NULL;
+	b = ft_stack_init();
 	if (argc < 2 || argv[1][0] == '\0')
 		return (0);
 
-	stack_a = ft_into_stack(argv);
-	if (!stack_a)
+	a = ft_into_stack(argv);
+	if (!a)
 		return (ft_printf("Error\n"), 0);
+	ft_get_stack_index(a);
+	if (!a || a->size <= 3)
+		return (ft_sorting_three(a), 0);
 
-	ft_get_stack_index(stack_a);
+	ft_greedy_push(a, b);
+	ft_pull(a, b);
 
-	// while (ft_is_sorted(stack_a) == 0)
-	// {
-	// 	// ft_triple_push(stack_a, stack_b);
-	// 	ft_greedy_push(stack_a, stack_b);
-	// 	ft_pull(stack_a, stack_b);
-	// }
 
-	ft_greedy_push(stack_a, stack_b);
-	ft_pull(stack_a, stack_b);
-
-	// ft_sorting_small(stack_a, stack_b);
-
-	free_stack(stack_a);
+	free_stack(a);
 	return (0);
 }

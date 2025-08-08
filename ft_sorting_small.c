@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:02:40 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/05 16:39:26 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/07 21:04:10 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,16 +144,16 @@ void	ft_get_stack_index(t_stack *stack_a)
 
 int	ft_is_sorted(t_stack *stack_a)
 {
-	t_list	*current;
+	t_list	*curr;
 
 	if (!stack_a || stack_a->size < 2)
 		return (1);
-	current = stack_a->top;
-	while (current && current->next)
+	curr = stack_a->top;
+	while (curr && curr->next)
 	{
-		if (current->index + 1 != current->next->index)
+		if (curr->index + 1 != curr->next->index)
 			return (0);
-		current = current->next;
+		curr = curr->next;
 	}
 	return (1);
 }
