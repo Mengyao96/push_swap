@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:22:57 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/08 01:22:42 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/08 14:33:49 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdint.h>
+# include <math.h>
 
 typedef struct s_list
 {
@@ -77,6 +78,10 @@ void	ft_sorting_small(t_stack *stack_a, t_stack *stack_b);
 void	ft_get_stack_index(t_stack *stack_a);
 int		ft_is_sorted(t_stack *stack_a);
 void	ft_pull(t_stack *a, t_stack *b);
-void	reconsider(t_stack *a, t_stack *b, t_move *moves);
+void	reconsider(t_stack *a, t_stack *b, t_list *node);
+void	ft_radix_sort(t_stack *b, t_stack *a);
+
+
+void	ft_reverse_radix_pull(t_stack *a, t_stack *b);
 
 #endif

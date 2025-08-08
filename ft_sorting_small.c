@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:02:40 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/07 21:04:10 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/08 11:02:51 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ int	ft_is_sorted(t_stack *stack_a)
 {
 	t_list	*curr;
 
-	if (!stack_a || stack_a->size < 2)
-		return (1);
+	// if (!stack_a || stack_a->size < 2)
+	// 	return (1);
 	curr = stack_a->top;
 	while (curr && curr->next)
 	{

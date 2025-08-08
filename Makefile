@@ -6,7 +6,7 @@
 #    By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 12:57:47 by mezhang           #+#    #+#              #
-#    Updated: 2025/08/02 18:33:18 by mezhang          ###   ########.fr        #
+#    Updated: 2025/08/08 17:20:59 by mezhang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ LIBFT = libft/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I./libft/ -I.
 
-SRCS = main.c \
+SRCS = main.c
 		ft_input_atoi.c \
 		ft_input_split.c \
 		ft_input.c \

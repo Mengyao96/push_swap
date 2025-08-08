@@ -6,7 +6,7 @@
 /*   By: mezhang <mezhang@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:30:44 by mezhang           #+#    #+#             */
-/*   Updated: 2025/08/04 17:48:31 by mezhang          ###   ########.fr       */
+/*   Updated: 2025/08/08 16:12:56 by mezhang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	**str_check_split(char *argv_str)
 			|| (len == 2 && (arry[i][0] == '-' || arry[i][0] == '+')
 			&& arry[i][1] == '0')))
 		{
-			return (printf("mm"), free_array(arry), NULL);
+			return (free_array(arry), NULL);
 		}
 		i++;
 	}

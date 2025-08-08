@@ -104,3 +104,38 @@ void	ft_triple_push(t_stack *a, t_stack *b)
 	moves->cost = 0; // Initialize to a large value
 } */
 
+void	*modify_node(t_stack *stack, int target, int type)
+{
+	t_list	*curr;
+	int		benchmark;
+
+	curr = stack->top;
+	if (type == 1)
+	{
+		benchmark = INT_MIN;
+		while (curr)
+		{
+			if (curr->index > benchmark)
+				benchmark = curr->index;
+			curr = curr->next;
+		}
+	}
+	else if (type == 2)
+	{
+		benchmark = INT_MAX;
+		while (curr)
+		{
+			if (curr->index < benchmark)
+				benchmark = curr->index;
+			curr = curr->next;
+		}
+	}
+	else
+	{
+		while (curr)
+		{
+			if (curr->index == target)
+				return ;
+		}
+	}
+}
